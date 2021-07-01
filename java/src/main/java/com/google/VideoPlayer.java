@@ -96,18 +96,15 @@ public class VideoPlayer {
   }
 
   public void createPlaylist(String playlistName) {
-    Boolean playlistFound = false;
-    for (int i = 0; i < playLists.size(); i++) {
-      if (playLists.get(i).getName().toUpperCase().equals(playlistName.toUpperCase())) {
-        playlistFound = true;
-        System.out.println("Cannot create playlist: A playlist with the same name already exists");
-      }
-    }
-    if (!playlistFound) {
-      VideoPlaylist newPlaylist = new VideoPlaylist(playlistName);
-      playLists.add(newPlaylist);
-      System.out.println("Successfully created new playlist: " + playlistName);
-    }
+
+        if(playlistExists(playlistName)) {
+          System.out.println("Cannot create playlist: A playlist with the same name already exists");
+        }
+        else{
+          VideoPlaylist newPlaylist = new VideoPlaylist(playlistName);
+          playLists.add(newPlaylist);
+          System.out.println("Successfully created new playlist: " + playlistName);
+        }
   }
 
   public void addVideoToPlaylist(String playlistName, String videoId) {
@@ -258,7 +255,25 @@ public class VideoPlayer {
   public void allowVideo(String videoId) {
     System.out.println("allowVideo needs implementation");
   }
+  
+  public Boolean playlistExists(String playlistName){
+    Boolean playlistFound = false;
+    for (int i = 0; i < playLists.size(); i++) {
+      if (playLists.get(i).getName().toUpperCase().equals(playlistName.toUpperCase())) {
+        playlistFound = true;
+      }
+    }
+    return playlistFound;
+  }
 
+  public VideoPlaylist getPlaylist(String playlistName){
+    for (int i = 0; i < playLists.size(); i++) {
+      if (playLists.get(i).getName().toUpperCase().equals(playlistName.toUpperCase())) {
+        return playLists.get(i);
+      }
+    }
+    return null;
+  }
 
   public List<Video> sort(List<Video> listToSort){
     Video[] arrayToSort = new Video[listToSort.size()];
