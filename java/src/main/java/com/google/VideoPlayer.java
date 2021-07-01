@@ -210,26 +210,34 @@ public class VideoPlayer {
 
 
   public void searchVideos(String searchTerm) {
+    Boolean flag = false;
     List<Video> searched = new ArrayList<Video>();
     for (int i = 0; i < videoLibrary.getVideos().size(); i++) {
-      if (videoLibrary.getVideos().get(i).isInTags(searchTerm.toLowerCase()))
+      if (videoLibrary.getVideos().get(i).isInTags(searchTerm.toLowerCase())) {
+        flag = true;
         searched.add(videoLibrary.getVideos().get(i));
+      }
     }
-    searched = sort(searched);
-    System.out.println("Here are the results for " + searchTerm + ":");
-    for (int i = 0; i < searched.size(); i++) {
-      System.out.println(i + 1 + ") " + searched.get(i).getVideoDetails());
+    if (!flag){
+      System.out.println("No search results for " + searchTerm);
     }
+    else {
+      searched = sort(searched);
+      System.out.println("Here are the results for " + searchTerm + ":");
+      for (int i = 0; i < searched.size(); i++) {
+        System.out.println(i + 1 + ") " + searched.get(i).getVideoDetails());
+      }
 
-    Scanner sc = new Scanner(System.in);
-    System.out.println("Would you like to play any of the above? If yes, specify the number of the video.");
-    System.out.println("If your answer is not a valid number, we will assume it's a no.");
 
-    try {
-      int a = sc.nextInt();
-      playVideo(searched.get(a - 1).getVideoId());
-    } catch (Exception e) {
-      //System.out.println("No search results for " + searchTerm);
+      Scanner sc = new Scanner(System.in);
+      System.out.println("Would you like to play any of the above? If yes, specify the number of the video.");
+      System.out.println("If your answer is not a valid number, we will assume it's a no.");
+
+      try {
+        int a = sc.nextInt();
+        playVideo(searched.get(a - 1).getVideoId());
+      } catch (Exception e) {
+      }
     }
   }
 
